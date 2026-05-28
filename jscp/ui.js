@@ -459,10 +459,10 @@ S.UI = (function () {
                         giftImage.style.animation = 'giftCelebration 2s ease-in-out';
                         setTimeout(() => {
                             giftImage.style.display = 'none';
-                            window.location.href = "./Tym-TQ/index4.html";
+                            window.location.href = "./heart";
                         }, 3000);
                     } else {
-                        window.location.href = "./Tym-TQ/index4.html";
+                        window.location.href = "./heart";
                     }
                     break;
 
@@ -1155,9 +1155,9 @@ function startHeartEffect() {
             spawnHeartPhotosCentered();
         }, 300);
 
-        // Tự động chuyển hướng sang trang Tym-TQ/index4.html sau 10 giây
+        // Tự động chuyển hướng sang trang heart sau 10 giây
         setTimeout(() => {
-            window.location.href = "./Tym-TQ/index4.html";
+            window.location.href = "./heart";
         }, 10000);
     });
 }
