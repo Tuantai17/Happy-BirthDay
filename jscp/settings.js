@@ -465,6 +465,9 @@ function applyLoadedSettings() {
     const birthdayAudio = document.getElementById('birthdayAudio');
     if (birthdayAudio) {
         birthdayAudio.src = settings.music;
+        if (typeof tryPlayMusic === 'function') {
+            tryPlayMusic();
+        }
     }
 
     // Apply gift image
