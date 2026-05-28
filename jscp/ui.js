@@ -1442,7 +1442,14 @@ book.addEventListener('contextmenu', (e) => {
 
 const musicControl = document.getElementById('musicControl');
 const birthdayAudio = document.getElementById('birthdayAudio');
-let isPlaying = false;
+let isPlaying = true; // Mặc định hiển thị là bật nhạc khi vừa vào trang
+
+// Cập nhật giao diện nút nhạc ngay khi load để hiển thị biểu tượng tạm dừng (⏸)
+if (musicControl) {
+    musicControl.innerHTML = '⏸';
+    musicControl.classList.add('playing');
+    musicControl.title = 'Pause Music';
+}
 
 birthdayAudio.volume = 0.6;
 
@@ -1461,18 +1468,36 @@ function toggleMusic() {
             musicControl.title = 'Pause Music';
             isPlaying = true;
         }).catch(error => {
-            // console.log('Autoplay blocked. Waiting for user interaction to play music.');
+            console.log('Playback blocked by browser.');
         });
     }
 }
 
 musicControl.addEventListener('click', toggleMusic);
 
+// Hàm cố gắng phát nhạc khi load trang hoặc khi tương tác
+function tryPlayMusic() {
+    if (!isPlaying || birthdayAudio.paused) {
+        birthdayAudio.play().then(() => {
+            musicControl.innerHTML = '⏸';
+            musicControl.classList.add('playing');
+            musicControl.title = 'Pause Music';
+            isPlaying = true;
+            cleanupInteractionListeners();
+        }).catch(error => {
+            console.log('Playback blocked by browser, waiting for user click.');
+            // Nếu bị chặn hoàn toàn, tạm thời hiển thị nút ▶ để người dùng click
+            isPlaying = false;
+            musicControl.innerHTML = '▶';
+            musicControl.classList.remove('playing');
+            musicControl.title = 'Play Music';
+        });
+    }
+}
+
 // Tự động phát nhạc khi người dùng tương tác lần đầu tiên với trang web
 function autoPlayOnFirstInteraction() {
-    if (!isPlaying) {
-        toggleMusic();
-    }
+    tryPlayMusic();
 }
 
 function cleanupInteractionListeners() {
@@ -1486,11 +1511,14 @@ document.addEventListener('click', autoPlayOnFirstInteraction);
 document.addEventListener('touchstart', autoPlayOnFirstInteraction);
 document.addEventListener('keydown', autoPlayOnFirstInteraction);
 
-// Thử tự động phát nhạc sau 1 giây khi tải trang (đối với các trình duyệt đã cấp quyền trước đó)
+// Cố gắng tự động phát ngay khi tải trang
+window.addEventListener('DOMContentLoaded', () => {
+    tryPlayMusic();
+});
+
+// Thử tự động phát nhạc sau 1 giây khi tải trang đề phòng DOMContentLoaded chạy quá nhanh
 setTimeout(() => {
-    if (!isPlaying) {
-        toggleMusic();
-    }
+    tryPlayMusic();
 }, 1000);
 
 birthdayAudio.addEventListener('ended', () => {
