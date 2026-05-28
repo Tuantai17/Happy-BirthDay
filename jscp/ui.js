@@ -5,6 +5,13 @@ const confettiPool = [];
 const maxConfetti = 50;
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+function getHeartRedirectPath() {
+    const hostname = window.location.hostname;
+    if (hostname === "localhost" || hostname === "127.0.0.1" || window.location.protocol === "file:") {
+        return "./Tym-TQ/heart/";
+    }
+    return "./heart/";
+}
 
 function createConfetti() {
     const confetti = document.createElement("div");
@@ -459,10 +466,10 @@ S.UI = (function () {
                         giftImage.style.animation = 'giftCelebration 2s ease-in-out';
                         setTimeout(() => {
                             giftImage.style.display = 'none';
-                            window.location.href = "./heart";
+                            window.location.href = getHeartRedirectPath();
                         }, 3000);
                     } else {
-                        window.location.href = "./heart";
+                        window.location.href = getHeartRedirectPath();
                     }
                     break;
 
@@ -1157,7 +1164,7 @@ function startHeartEffect() {
 
         // Tự động chuyển hướng sang trang heart sau 10 giây
         setTimeout(() => {
-            window.location.href = "./heart";
+            window.location.href = getHeartRedirectPath();
         }, 10000);
     });
 }
