@@ -1705,3 +1705,28 @@ window.debugBookImages = function() {
         const imageUrl = img.getAttribute('data-image-url');
     });
 };
+
+// Điều khiển màn hình chào (Welcome Screen) và tự động bật nhạc
+window.addEventListener('DOMContentLoaded', () => {
+    const startBtn = document.getElementById('start-btn');
+    const welcomeScreen = document.getElementById('welcome-screen');
+    
+    if (startBtn && welcomeScreen) {
+        startBtn.addEventListener('click', () => {
+            // 1. Phát nhạc chúc mừng sinh nhật (Chắc chắn thành công vì do click trực tiếp của người dùng)
+            tryPlayMusic();
+            
+            // 2. Ẩn màn hình chào với hiệu ứng chuyển động mờ dần mượt mà
+            welcomeScreen.style.opacity = '0';
+            welcomeScreen.style.visibility = 'hidden';
+            
+            // 3. Khởi động lại đếm ngược từ 3, 2, 1 và chạy hiệu ứng chữ đồng bộ cùng bài nhạc
+            setTimeout(() => {
+                welcomeScreen.remove(); // Xóa khỏi DOM để giải phóng bộ nhớ
+                if (typeof resetWebsiteState === 'function') {
+                    resetWebsiteState();
+                }
+            }, 800);
+        });
+    }
+});

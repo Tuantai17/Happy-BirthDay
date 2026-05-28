@@ -27,6 +27,59 @@
 </head>
 
 <body>
+    <div id="welcome-screen" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0d0d0d;
+        z-index: 9999999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-family: 'Pacifico', cursive, sans-serif;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+    ">
+        <style>
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+            #start-btn:hover {
+                transform: scale(1.1) translateY(-2px);
+                box-shadow: 0 12px 30px rgba(255,71,87,0.7);
+            }
+            #start-btn:active {
+                transform: scale(0.98) translateY(0);
+            }
+        </style>
+        <div style="text-align: center; padding: 20px; z-index: 10;">
+            <h1 style="font-size: 2.2rem; margin-bottom: 30px; color: #ff6b8b; text-shadow: 0 0 15px rgba(255,107,139,0.4); animation: pulse 2s infinite;">
+                Bạn có 1 món quà đặc biệt đang chờ... 🎁
+            </h1>
+            <button id="start-btn" style="
+                padding: 18px 45px;
+                font-size: 1.5rem;
+                font-family: 'Dancing Script', cursive, sans-serif;
+                font-weight: bold;
+                background: linear-gradient(135deg, #ff6b8b, #ff4757);
+                border: none;
+                border-radius: 50px;
+                color: #fff;
+                cursor: pointer;
+                box-shadow: 0 8px 25px rgba(255,71,87,0.5);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                letter-spacing: 1px;
+            ">
+                Chạm để Mở Quà ✨
+            </button>
+        </div>
+    </div>
+
     <button id="langSwitchBtn"
         style="position:fixed;top:20px;right:150px;z-index:10000004;padding:8px 16px;border-radius:8px;background:#fff;color:#222;border:1px solid #dadce0;cursor:pointer;display:none;">
         EN/VI
@@ -161,7 +214,7 @@
         <script src="./lang.js"></script>
         <script src="./jscp/settings.js?v=2"></script>
         <script src="./jscp/main.js"></script>
-        <script src="./jscp/ui.js?v=6"></script>
+        <script src="./jscp/ui.js?v=7"></script>
 </body>
 
 </html>
