@@ -1447,6 +1447,7 @@ let isPlaying = false;
 birthdayAudio.volume = 0.6;
 
 function toggleMusic() {
+    cleanupInteractionListeners(); // Gỡ bỏ listener tự động phát ngay khi người dùng chủ động tương tác với nhạc
     if (isPlaying) {
         birthdayAudio.pause();
         musicControl.innerHTML = '▶';
@@ -1460,12 +1461,37 @@ function toggleMusic() {
             musicControl.title = 'Pause Music';
             isPlaying = true;
         }).catch(error => {
-            // alert('Click to play music!');
+            // console.log('Autoplay blocked. Waiting for user interaction to play music.');
         });
     }
 }
 
 musicControl.addEventListener('click', toggleMusic);
+
+// Tự động phát nhạc khi người dùng tương tác lần đầu tiên với trang web
+function autoPlayOnFirstInteraction() {
+    if (!isPlaying) {
+        toggleMusic();
+    }
+}
+
+function cleanupInteractionListeners() {
+    document.removeEventListener('click', autoPlayOnFirstInteraction);
+    document.removeEventListener('touchstart', autoPlayOnFirstInteraction);
+    document.removeEventListener('keydown', autoPlayOnFirstInteraction);
+}
+
+// Lắng nghe sự kiện tương tác đầu tiên của người dùng để kích hoạt nhạc
+document.addEventListener('click', autoPlayOnFirstInteraction);
+document.addEventListener('touchstart', autoPlayOnFirstInteraction);
+document.addEventListener('keydown', autoPlayOnFirstInteraction);
+
+// Thử tự động phát nhạc sau 1 giây khi tải trang (đối với các trình duyệt đã cấp quyền trước đó)
+setTimeout(() => {
+    if (!isPlaying) {
+        toggleMusic();
+    }
+}, 1000);
 
 birthdayAudio.addEventListener('ended', () => {
 });
